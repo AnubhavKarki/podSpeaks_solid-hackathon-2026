@@ -80,7 +80,7 @@ export function PodMap({ folders, isLoading, activeFolderUrl, emergencyActive, o
               isGlowing={activeFolderUrl === folder.url && !emergencyActive}
               onClick={() => onFolderClick(folder)}
               cardRef={setCardRef(folder.url)}
-              onRevoke={onRevoke ? (webId) => onRevoke(folder, webId) : undefined}
+              {...(onRevoke ? { onRevoke: (webId: string) => onRevoke(folder, webId) } : {})}
             />
           ))
         )}

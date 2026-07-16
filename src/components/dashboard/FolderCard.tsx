@@ -106,7 +106,7 @@ export function FolderCard({ folder, index, isActive, isGlowing, onClick, cardRe
       {hasAccess ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
           {folder.currentAccess.slice(0, 3).map((p) => (
-            <PermissionBadge key={p.webId} permission={p} onRevoke={onRevoke ? () => onRevoke(p.webId) : undefined} />
+            <PermissionBadge key={p.webId} permission={p} {...(onRevoke ? { onRevoke: () => onRevoke(p.webId) } : {})} />
           ))}
           {folder.currentAccess.length > 3 && (
             <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', paddingLeft: 4 }}>
