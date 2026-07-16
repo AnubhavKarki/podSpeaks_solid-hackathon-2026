@@ -1,0 +1,215 @@
+@import '@fontsource-variable/inter';
+@import '@fontsource/jetbrains-mono';
+@import './animations.css';
+
+/* ─── Design tokens ─────────────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --bg-primary:   #F8FAFC;
+  --bg-secondary: #F1F5F9;
+  --bg-tertiary:  #E2E8F0;
+  --bg-glass:     rgba(255, 255, 255, 0.85);
+
+  /* Accents */
+  --accent-primary: #6366F1;
+  --accent-glow:    #4F46E5;
+  --accent-teal:    #0D9488;
+  --accent-danger:  #DC2626;
+  --accent-warning: #D97706;
+
+  /* Text */
+  --text-primary:   #0F172A;
+  --text-secondary: #334155;
+  --text-tertiary:  #64748B;
+
+  /* Borders */
+  --border-subtle: rgba(99, 102, 241, 0.18);
+  --border-active: rgba(99, 102, 241, 0.45);
+
+  /* Semantic */
+  --granted:  #0D9488;
+  --revoked:  #DC2626;
+  --expiring: #D97706;
+  --pending:  #6366F1;
+
+  /* Typography */
+  --font-sans: 'InterVariable', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Easing */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out:    cubic-bezier(0.0,  0, 0.2, 1);
+}
+
+/* ─── Reset ─────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  height: 100%;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  height: 100%;
+}
+
+/* ─── Typography ────────────────────────────────────────────────── */
+h1 { font-size: 2rem;   font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; }
+h2 { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.3; }
+h3 { font-size: 1.1rem; font-weight: 600; line-height: 1.4; }
+
+.text-hero {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.text-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.text-mono {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.text-muted  { color: var(--text-secondary); }
+.text-dim    { color: var(--text-tertiary);  }
+.text-accent { color: var(--accent-primary); }
+.text-teal   { color: var(--accent-teal);   }
+.text-danger { color: var(--accent-danger);  }
+
+/* ─── Glass card ────────────────────────────────────────────────── */
+.glass-card {
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+}
+
+.glass-card:hover {
+  border-color: var(--border-active);
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-tertiary); }
+::-webkit-scrollbar-thumb { background: rgba(99, 102, 241, 0.35); border-radius: 2px; }
+
+/* ─── Selection ─────────────────────────────────────────────────── */
+::selection {
+  background: rgba(99, 102, 241, 0.3);
+  color: var(--text-primary);
+}
+
+/* ─── Focus ─────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Buttons base ──────────────────────────────────────────────── */
+button {
+  font-family: var(--font-sans);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* ─── Input base ────────────────────────────────────────────────── */
+input, textarea {
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--text-tertiary);
+}
+
+/* ─── Skeleton shimmer helper ───────────────────────────────────── */
+.skeleton {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.skeleton::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--bg-secondary) 25%,
+    var(--bg-tertiary)  50%,
+    var(--bg-secondary) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+/* ─── Responsive ────────────────────────────────────────────────── */
+
+/* Tablet — stack audit log below the two main panels */
+@media (max-width: 768px) {
+  .dashboard-body {
+    flex-direction: column !important;
+  }
+  .dashboard-left,
+  .dashboard-center,
+  .dashboard-right {
+    width: 100% !important;
+    min-width: unset !important;
+    border-right: none !important;
+    border-left: none !important;
+    border-bottom: 1px solid var(--border-subtle);
+    max-height: 38vh;
+  }
+  .dashboard-center {
+    max-height: unset;
+    flex: 1;
+  }
+  .dashboard-right {
+    max-height: 30vh;
+    border-bottom: none;
+  }
+}
+
+/* Mobile — hide audit log, compress header */
+@media (max-width: 480px) {
+  .dashboard-right {
+    display: none !important;
+  }
+  .dashboard-left {
+    max-height: 28vh;
+  }
+  .dashboard-header-webid {
+    display: none !important;
+  }
+}
