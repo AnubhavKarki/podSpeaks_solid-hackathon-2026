@@ -66,14 +66,25 @@ function useRotatingPlaceholder(): string {
   return text
 }
 
+type SpeechRecognitionInstance = {
+  continuous: boolean
+  interimResults: boolean
+  lang: string
+  start(): void
+  stop(): void
+  onresult: ((event: SpeechRecognitionEvent) => void) | null
+  onend: (() => void) | null
+  onerror: (() => void) | null
+}
+type SpeechRecognitionConstructor = new () => SpeechRecognitionInstance
+
 function useVoiceInput(onTranscript: (text: string) => void) {
   const [isListening, setIsListening] = useState(false)
-  const recognitionRef = useRef<InstanceType<typeof window.SpeechRecognition> | null>(null)
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
 
   const toggle = useCallback(() => {
-    type SR = new () => InstanceType<typeof window.SpeechRecognition>
     const SRClass = ((window as unknown as Record<string, unknown>)['SpeechRecognition']
-      ?? (window as unknown as Record<string, unknown>)['webkitSpeechRecognition']) as SR | undefined
+      ?? (window as unknown as Record<string, unknown>)['webkitSpeechRecognition']) as SpeechRecognitionConstructor | undefined
     if (!SRClass) return
 
     if (isListening) {
